@@ -23,10 +23,21 @@ module.exports = async (req, res) => {
             query: query
           }
         });
+
+        const results = tmdbResponse.data.results.map(item => ({
+            title: item.name || item.title,
+            overview: item.overview,
+            release_date: item.release_date || item.first_air_date,
+            // This acts as an if-else statement. If the movie or show has a poster path it completes the url, if not it is set to null
+            poster_path: item.poster_path ? `https://image.tmdb.org/t/p/w500${item.poster_path}` : null,
+            media_type: item.media_type
+        }))
+
+
     
         // Send the results from the USDA API back to the frontend
       
-        res.status(200).json(tmdbResponse.data);  // Return the data as JSON
+        res.status(200).json(results);  // Return the data as JSON
       } catch (error) {
         console.error('Error fetching data from TMDB API:', error);
         res.status(500).json({ error: 'Failed to fetch data from TMDB API' });
