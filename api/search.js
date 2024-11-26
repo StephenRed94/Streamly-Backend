@@ -1,11 +1,18 @@
 const axios = require('axios'); // Used to make HTTP requests to the TMDB API
 require('dotenv').config();  // This loads environment variables from the .env file (TMDB API key)
 
-const TMDB_API_URL = 'https://api.themoviedb.org/3/search/multi?'
+const TMDB_API_URL = 'https://api.themoviedb.org/3/search/multi?';
+const TMDB_MOVIE_STREAMING_API_URL = 'https://api.themoviedb.org/3/watch/providers/movie?';
+const TMDB_TV_STREAMING_API_URL = 'https://api.themoviedb.org/3/watch/providers/tv?';
 
 
 module.exports = async (req, res) => {
     const query = req.query.query;  // Get the search query from the frontend
+
+  res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:5500');
+  res.setHeader('Access-Control-Allow-Methods', 'GET'); 
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type'); 
+
   
 
     try {
