@@ -7,9 +7,10 @@ const TMDB_TV_STREAMING_API_URL = 'https://api.themoviedb.org/3/watch/providers/
 
 
 module.exports = async (req, res) => {
-    const query = req.query.query;  // Get the search query from the frontend
+  const query = req.query.query;  // Get the search query from the frontend
+  const allowedOrigins = ['http://127.0.0.1:5500/Streamly-Frontend', 'http://127.0.0.1:5500']; 
 
-  res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:5500/Streamly-Frontend/');
+  res.setHeader('Access-Control-Allow-Origin', allowedOrigins);
   res.setHeader('Access-Control-Allow-Methods', 'GET'); 
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type'); 
 
@@ -27,7 +28,7 @@ module.exports = async (req, res) => {
         const results = tmdbResponse.data.results.map(item => ({
             title: item.title,
             overview: item.overview,
-            release_date: item.release_date,
+            release_date: item.release_date
             // This acts as an if-else statement. If the movie or show has a poster path it completes the url, if not it is set to null
             poster_path: item.poster_path ? `https://image.tmdb.org/t/p/w500${item.poster_path}` : null,
             media_type: item.media_type
