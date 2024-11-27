@@ -30,7 +30,8 @@ module.exports = async (req, res) => {
             release_date: item.release_date || item.first_air_date,
             // This acts as an if-else statement. If the movie or show has a poster path it completes the url, if not it is set to null
             poster_path: item.poster_path ? `https://image.tmdb.org/t/p/w500${item.poster_path}` : null,
-            media_type: item.media_type
+            media_type: item.media_type,
+            id: item.id
         }))
 
 
