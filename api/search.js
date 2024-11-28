@@ -69,7 +69,7 @@ module.exports = async (req, res) => {
 };
 
 async function fetchStreamingInfo(mediaType, id) {
-    const filterCountries = ['US', 'CA', 'GB']; // Array to filter countries
+    // const filterCountries = ['US', 'CA', 'GB']; // Array to filter countries
     try {
         let response;
     if (mediaType == 'movie') {
@@ -79,6 +79,7 @@ async function fetchStreamingInfo(mediaType, id) {
                             movie_id: id
                         }
                     });
+        return response.data.results;
     }
 
     else if (mediaType == 'tv') {
@@ -88,6 +89,7 @@ async function fetchStreamingInfo(mediaType, id) {
                     tv_id: id
                 }
             });
+        return response.data.results;
     }
 
     else {
@@ -95,8 +97,8 @@ async function fetchStreamingInfo(mediaType, id) {
     }
 
 // Filtering by 3 countries, US, CA, GB
- const filteredProviders = response.data.results.filter (provider => filterCountries.includes(provider.iso_3166_1));
- return filteredProviders;
+//  const filteredProviders = response.data.results.filter (provider => filterCountries.includes(provider.iso_3166_1));
+//  return filteredProviders;
 
 
 } catch (error) {
