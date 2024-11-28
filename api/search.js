@@ -45,13 +45,13 @@ module.exports = async (req, res) => {
             movieShowData object, which is then pushed to either the movieResults or tvResults array
         */
         if(item.media_type === 'movie') {
-            const movieStreamingInfo = await fetchStreamingInfo(item.type, item.id);
+            const movieStreamingInfo = await fetchStreamingInfo(media_item.type, item.id);
             movieShowData.streaming_providers = movieStreamingInfo;
             movieResults.push(movieShowData); 
         }
 
         else {
-            const tvStreamingInfo = await fetchStreamingInfo(item.type, item.id);
+            const tvStreamingInfo = await fetchStreamingInfo(item.media_type, item.id);
             movieShowData.streaming_providers = tvStreamingInfo;
             tvResults.push(movieShowData); 
         }
@@ -70,41 +70,38 @@ module.exports = async (req, res) => {
 
 async function fetchStreamingInfo(mediaType, id) {
     const filterCountries = ['US', 'CA', 'GB']; // Array to filter countries
+    try {
+        let response;
     if (mediaType == 'movie') {
-        try {
-                    const response = await axios.get(TMDB_MOVIE_STREAMING_API_URL, {
+                    response = await axios.get(TMDB_MOVIE_STREAMING_API_URL, {
                         params: {
                             api_key: process.env.TMDB_API_KEY,  // Use the secure API key from the .env file
                             movie_id: id
                         }
                     });
-                    return response.data.results || [];
-        } catch (error) {
-            console.error('Error fetching streaming data', error);
-            return [];
-        }
     }
 
     else if (mediaType == 'tv') {
-        try {
-            const response = await axios.get(TMDB_TV_STREAMING_API_URL, {
+            response = await axios.get(TMDB_TV_STREAMING_API_URL, {
                 params: {
                     api_key: process.env.TMDB_API_KEY,  // Use the secure API key from the .env file
                     tv_id: id
                 }
             });
-            return response.data.results || [];
-} catch (error) {
-    console.error('Error fetching streaming data', error);
-    return [];
-}
     }
 
     else {
         throw new Error('Invalid media type');
     }
 
- const filteredProviders = response.data.results.filter (provider => filterCountries.includes(provider.iso_3166_1)); 
+// Filtering by 3 countries, US, CA, GB
+ const filteredProviders = response.data.results.filter (provider => filterCountries.includes(provider.iso_3166_1));
+ return filteredProviders;
 
 
+} catch (error) {
+    console.error('Error fetching streaming data', error);
+    return [];
+
+    }
 }
