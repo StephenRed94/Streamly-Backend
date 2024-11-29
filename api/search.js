@@ -97,18 +97,9 @@ async function fetchStreamingInfo(mediaType, id) {
     const streamingInfo = [];
 
     for (const countryCode in response.data.results) {
-            const countryData = response.data.results[countryCode]; 
-                if(countryData.flatrate) {
-                for (let i = 0; i < countryData.flatrate.length; i++) {
-                    const provider = countryData.flatrate[i];
-                    const streamingData = {
-                        provider_name: provider.provider_name,
-                        country: countryCode
-                    };
-
-
-                    streamingInfo.push(streamingData);
-                }
+        if(response.data.results.hasOwnProperty(countryCode)) {
+        const countryCode = response.data.results[i];
+        streamingInfo.push(countryCode);
         }
     }
 
