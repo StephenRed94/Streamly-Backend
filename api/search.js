@@ -93,27 +93,23 @@ async function fetchStreamingInfo(mediaType, id) {
         throw new Error('Invalid media type');
     }
 
+    const streamingInfo = [];
 
-// const filteredProviders = [];
-
-// for (let i = 0; i < response.data.results.length; i++) {
-//     const item = response.data.results[i];
-
-//     if(item.iso_3166_1 == 'US' || item.iso_3166_1 == 'CA' || item.iso_3166_1 == 'GB') {
-//     const streamingData = 
-//     {
-//         provider_name: item.provider_name,
-//         country: item.iso_3166_1,
-//     };
+for (let i = 0; i < response.data.results.length; i++) {
 
 
-//     filteredProviders.push(streamingData);
-//     }
-// }
+    const streamingData = 
+    {
+        provider_name: item.provider_name,
+        country: item.iso_3166_1,
+    };
 
-// return filteredProviders;
+    streamingInfo.push(streamingData);
 
-return response.data.results;
+}
+
+return streamingInfo();
+
 
 } catch (error) {
     console.error('Error fetching streaming data', error);
