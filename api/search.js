@@ -93,20 +93,28 @@ async function fetchStreamingInfo(mediaType, id) {
         throw new Error('Invalid media type');
     }
 
+
     const streamingInfo = [];
 
-for (let i = 0; i < response.data.results.length; i++) {
-    const item = response.data.results[i];
+    for (const countryCode in response.data.results) {
+        if (response.data.results.hasOwnProperty(countryCode)) {
+            const countryData = response.data.results[countryCode]; 
 
-    const streamingData = 
-    {
-        provider_name: item.provider_name,
-        country: item.iso_3166_1,
-    };
+            if (countryData && countryData.flatrate) {
+                for (let i = 0; i < countryData.flatrate.length; i++) {
+                    const provider = countryData.flatrate[i];
 
-    streamingInfo.push(streamingData);
+                    const streamingData = {
+                        provider_name: provider.provider_name,
+                        country: countryCode
+                    };
 
-}
+
+                    streamingInfo.push(streamingData);
+                }
+            }
+        }
+    }
 
 return streamingInfo();
 
