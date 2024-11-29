@@ -96,6 +96,7 @@ async function fetchStreamingInfo(mediaType, id) {
 
 
 const filteredProviders = [];
+console.log(response,data);
 for (let i = 0; i < response.data.results.length; i++) {
     const item = response.data.results[i];
     if(filterCountries.includes(item.iso_3166_1)) {
@@ -109,6 +110,7 @@ for (let i = 0; i < response.data.results.length; i++) {
     }
 }
 
+console.log(filteredProviders);
 return filteredProviders;
 
 
