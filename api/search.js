@@ -96,7 +96,7 @@ async function fetchStreamingInfo(mediaType, id) {
     const streamingInfo = [];
 
 for (let i = 0; i < response.data.results.length; i++) {
-
+    const item = response.data.results[i];
 
     const streamingData = 
     {
