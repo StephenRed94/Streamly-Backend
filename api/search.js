@@ -105,7 +105,7 @@ for (let i = 0; i < response.data.results.length; i++) {
         country: item.iso_3166_1,
     };
 
-    filteredProviders,push(streamingData);
+    filteredProviders.push(streamingData);
     }
 }
 
