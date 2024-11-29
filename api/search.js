@@ -94,11 +94,15 @@ async function fetchStreamingInfo(mediaType, id) {
         throw new Error('Invalid media type');
     }
 
+    console.log('Response data:', response.data);
+    console.log('Response data results:', response.data.results);
 
 const filteredProviders = [];
-console.log(response,data);
+
 for (let i = 0; i < response.data.results.length; i++) {
     const item = response.data.results[i];
+
+    console.log('Item:', item);
     if(filterCountries.includes(item.iso_3166_1)) {
     const streamingData = 
     {
@@ -106,11 +110,12 @@ for (let i = 0; i < response.data.results.length; i++) {
         country: item.iso_3166_1,
     };
 
+    console.log('Filtered Streaming Data:', streamingData);
+
     filteredProviders.push(streamingData);
     }
 }
 
-console.log(filteredProviders);
 return filteredProviders;
 
 
