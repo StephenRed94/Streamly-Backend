@@ -99,7 +99,7 @@ async function fetchStreamingInfo(mediaType, id) {
     for (const countryCode in response.data.results) {
         if (response.data.results.hasOwnProperty(countryCode)) {
             const countryData = response.data.results[countryCode]; 
-
+                if(countryData.flatrate) {
                 for (let i = 0; i < countryData.flatrate.length; i++) {
                     const provider = countryData.flatrate[i];
 
@@ -110,6 +110,7 @@ async function fetchStreamingInfo(mediaType, id) {
 
 
                     streamingInfo.push(streamingData);
+                }
                 }
         }
     }
