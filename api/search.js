@@ -94,25 +94,26 @@ async function fetchStreamingInfo(mediaType, id) {
     }
 
 
-const filteredProviders = [];
+// const filteredProviders = [];
 
-for (let i = 0; i < response.data.results.length; i++) {
-    const item = response.data.results[i];
+// for (let i = 0; i < response.data.results.length; i++) {
+//     const item = response.data.results[i];
 
-    if(item.iso_3166_1 == 'US' || item.iso_3166_1 == 'CA' || item.iso_3166_1 == 'GB') {
-    const streamingData = 
-    {
-        provider_name: item.provider_name,
-        country: item.iso_3166_1,
-    };
+//     if(item.iso_3166_1 == 'US' || item.iso_3166_1 == 'CA' || item.iso_3166_1 == 'GB') {
+//     const streamingData = 
+//     {
+//         provider_name: item.provider_name,
+//         country: item.iso_3166_1,
+//     };
 
 
-    filteredProviders.push(streamingData);
-    }
-}
+//     filteredProviders.push(streamingData);
+//     }
+// }
 
-return filteredProviders;
+// return filteredProviders;
 
+return response.data.results;
 
 } catch (error) {
     console.error('Error fetching streaming data', error);
