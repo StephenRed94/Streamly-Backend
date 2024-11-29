@@ -101,6 +101,10 @@ async function fetchStreamingInfo(mediaType, id) {
         const countryCode = response.data.results[i];
         streamingInfo.push(countryCode);
         }
+
+        else {
+            streamingInfo.push('No Streaming data');
+        }
     }
 
 return streamingInfo;
