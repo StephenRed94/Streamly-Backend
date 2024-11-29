@@ -69,7 +69,6 @@ module.exports = async (req, res) => {
 };
 
 async function fetchStreamingInfo(mediaType, id) {
-    const filterCountries = ['US', 'CA', 'GB']; // Array to filter countries
     try {
         let response;
     if (mediaType == 'movie') {
@@ -94,23 +93,19 @@ async function fetchStreamingInfo(mediaType, id) {
         throw new Error('Invalid media type');
     }
 
-    console.log('Response data:', response.data);
-    console.log('Response data results:', response.data.results);
 
 const filteredProviders = [];
 
 for (let i = 0; i < response.data.results.length; i++) {
     const item = response.data.results[i];
 
-    console.log('Item:', item);
-    if(filterCountries.includes(item.iso_3166_1)) {
+    if(item.iso_3166_1 == 'US' || item.iso_3166_1 == 'CA' || item.iso_3166_1 == 'GB') {
     const streamingData = 
     {
         provider_name: item.provider_name,
         country: item.iso_3166_1,
     };
 
-    console.log('Filtered Streaming Data:', streamingData);
 
     filteredProviders.push(streamingData);
     }
