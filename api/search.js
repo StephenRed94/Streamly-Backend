@@ -99,6 +99,13 @@ async function fetchStreamingInfo(mediaType, id) {
 
 } catch (error) {
     console.error('Error fetching streaming data', error);
+    if (error.response) {
+        // Detailed logging if error has response object
+        console.error('API Error Response:', error.response.data);
+        console.error('API Error Status:', error.response.status);
+    } else {
+        console.error('Error Message:', error.message);
+    }
     return [];
 
     }
