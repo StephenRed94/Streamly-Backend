@@ -93,17 +93,9 @@ async function fetchStreamingInfo(mediaType, id) {
         throw new Error('Invalid media type');
     }
 
-    if (response.data && response.data.results) {
-        for (let countryCode in response.data.results) {
-            const countryData = response.data.results[countryCode];
-            providerInfo.push({
-                country_code: countryCode,
-                country_data: countryData 
-            })
-        }
-    }
+    console.log(response.data.results);
 
-    return providerInfo;
+  
 
 
 } catch (error) {
