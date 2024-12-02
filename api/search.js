@@ -45,13 +45,13 @@ module.exports = async (req, res) => {
             movieShowData object, which is then pushed to either the movieResults or tvResults array
         */
         if(item.media_type === 'movie') {
-            const movieStreamingInfo = fetchStreamingInfo(item.media_type, item.id);
+            const movieStreamingInfo = await fetchStreamingInfo(item.media_type, item.id);
             movieShowData.streaming_providers = movieStreamingInfo;
             movieResults.push(movieShowData); 
         }
 
         else {
-            const tvStreamingInfo = fetchStreamingInfo(item.media_type, item.id);
+            const tvStreamingInfo = await fetchStreamingInfo(item.media_type, item.id);
             movieShowData.streaming_providers = tvStreamingInfo;
             tvResults.push(movieShowData); 
         }
