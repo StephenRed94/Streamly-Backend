@@ -92,34 +92,9 @@ async function fetchStreamingInfo(mediaType, id) {
     else {
         throw new Error('Invalid media type');
     }
+    console.log('Results Object:', response.data.results);
 
-
-const providerInfo = [];
-if (response.data && response.data.results) {
-    // Iterate over each country code in `results`
-    for (let countryCode in response.data.results) {
-        const countryData = response.data.results[countryCode];
-
-        // Log country code and country data for debugging
-        console.log(`Country: ${countryCode}, Country Data:`, countryData);
-
-        if (Array.isArray(countryData.flatrate) && countryData.flatrate.length > 0) {
-            // Loop through the providers in `flatrate`
-            countryData.flatrate.forEach(provider => {
-                providerInfo.push({
-                    provider_name: provider.provider_name,
-                    country_code: countryCode,
-                    country_name: countryData.country_name || 'Unknown Country',  // Use 'Unknown Country' if `country_name` is not available
-                });
-            });
-        } else {
-            // Log if no flatrate providers are available for the country
-            console.log(`No flatrate providers or empty list for country: ${countryCode}`);
-        }
-    }
-}
-
-return providerInfo;
+    return response.data.results;
 
 
 } catch (error) {
