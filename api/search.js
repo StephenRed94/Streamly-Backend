@@ -92,8 +92,26 @@ async function fetchStreamingInfo(mediaType, id) {
     else {
         throw new Error('Invalid media type');
     }
+const providerInfo = [];
+if (response.data && response.data.results) {
+    for (let countryCode in response.data.results) {
+        const countryData = response.data.results[countryCode];
 
-    return response.data.results;
+        // Check if 'flatrate' array exists
+        if (countryData.flatrate) {
+            countryData.flatrate.forEach(provider => {
+                providerInfo.push({
+                    provider_name: provider.provider_name,
+                    country_code: countryCode,
+                    country_name: countryData.country_name || 'Unknown Country'
+                });
+            });
+        }
+    }
+}
+
+return providerInfo;
+
 
 } catch (error) {
     console.error('Error fetching streaming data', error);
