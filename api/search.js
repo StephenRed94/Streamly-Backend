@@ -93,7 +93,7 @@ async function fetchStreamingInfo(mediaType, id) {
         throw new Error('Invalid media type');
     }
 
-    console.log(response.data.results);
+    console.log('testing');
     return response.data.results;
 
   
