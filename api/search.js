@@ -94,7 +94,7 @@ async function fetchStreamingInfo(mediaType, id) {
     }
 
     console.log(response.data.results);
-    return response.results.data;
+    return response.data.results;
 
   
 
