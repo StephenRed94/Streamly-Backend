@@ -2,17 +2,18 @@ const axios = require('axios'); // Used to make HTTP requests to the TMDB API
 require('dotenv').config();  // This loads environment variables from the .env file (TMDB API key)
 
 const TMDB_API_URL = 'https://api.themoviedb.org/3/search/multi?';
-const TMDB_MOVIE_STREAMING_API_URL = 'https://api.themoviedb.org/3/watch/providers/movie?';
-const TMDB_TV_STREAMING_API_URL = 'https://api.themoviedb.org/3/watch/providers/tv?';
 
 
 module.exports = async (req, res) => {
   const query = req.query.query;  // Get the search query from the frontend
 
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET'); 
+  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS'); 
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type'); 
 
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
   
 
     try {
@@ -72,19 +73,17 @@ async function fetchStreamingInfo(mediaType, id) {
     try {
         let response;
     if (mediaType == 'movie') {
-                    response = await axios.get(TMDB_MOVIE_STREAMING_API_URL, {
+                    response = await axios.get(`https://api.themoviedb.org/3/movie/${id}/watch/providers`, {
                         params: {
                             api_key: process.env.TMDB_API_KEY,  // Use the secure API key from the .env file
-                            movie_id: id
                         }
                     });
     }
 
     else if (mediaType == 'tv') {
-            response = await axios.get(TMDB_TV_STREAMING_API_URL, {
+            response = await axios.get(`https://api.themoviedb.org/3/tv/${id}/watch/providers`, {
                 params: {
                     api_key: process.env.TMDB_API_KEY,  // Use the secure API key from the .env file
-                    tv_id: id
                 }
             });
     }
@@ -94,10 +93,20 @@ async function fetchStreamingInfo(mediaType, id) {
     }
 
     const providers = [];
-    providers.push('NetFlix, Amazon Prime, Disney Plus');
-    return providers;
+    const platformData = response.data.results;
 
-  
+    // Loop through available countries and extract the provider names
+    for (const country in platformData) {
+      if (platformData[country].flatrate) {
+        platformData[country].flatrate.forEach(service => {
+          if (service.provider_name) {
+            providers.push(service.provider_name);
+          }
+        });
+      }
+    }
+
+    return [...new Set(providers)];
 
 
 } catch (error) {
