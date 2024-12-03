@@ -105,11 +105,11 @@ async function fetchStreamingInfo(mediaType, id) {
           }
         });
 
-        countryProviders[country] = [...new Set(countryProviders[country])];
+        providers[country] = [...new Set(providers[country])];
       }
     }
 
-    return countryProviders;
+    return providers;
 
 
 } catch (error) {
