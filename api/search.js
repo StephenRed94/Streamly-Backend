@@ -71,37 +71,45 @@ module.exports = async (req, res) => {
 async function fetchStreamingInfo(mediaType, id) {
     try {
         let response;
-    if (mediaType == 'movie') {
-                    response = await axios.get(TMDB_MOVIE_STREAMING_API_URL, {
-                        params: {
-                            api_key: process.env.TMDB_API_KEY,  // Use the secure API key from the .env file
-                            movie_id: id
-                        }
-                    });
-    }
+        
+        console.log('Fetching streaming info for:', mediaType, id);  // Trace the flow
 
-    else if (mediaType == 'tv') {
+        if (mediaType === 'movie') {
+            console.log('Fetching movie streaming info');
+            response = await axios.get(TMDB_MOVIE_STREAMING_API_URL, {
+                params: {
+                    api_key: process.env.TMDB_API_KEY,
+                    movie_id: id
+                }
+            });
+        } else if (mediaType === 'tv') {
+            console.log('Fetching TV streaming info');
             response = await axios.get(TMDB_TV_STREAMING_API_URL, {
                 params: {
-                    api_key: process.env.TMDB_API_KEY,  // Use the secure API key from the .env file
+                    api_key: process.env.TMDB_API_KEY,
                     tv_id: id
                 }
             });
-    }
+        } else {
+            throw new Error('Invalid media type');
+        }
 
-    else {
-        throw new Error('Invalid media type');
-    }
+        // Check for successful response before processing
+        if (response.status !== 200) {
+            throw new Error(`Failed to fetch data: ${response.status}`);
+        }
 
-    console.log('testing');
-    return response.data.results;
+        console.log('Response received:', response.data);  // Log the response
 
-  
+        // Check if data is in expected format
+        if (!response.data || !response.data.results) {
+            throw new Error('Unexpected response format');
+        }
 
+        return response.data.results;
 
-} catch (error) {
-    console.error('Error fetching streaming data', error);
-    return [];
-
+    } catch (error) {
+        console.error('Error fetching streaming data', error);  // Log the error
+        return [];  // Return empty array if an error occurs
     }
 }
