@@ -71,37 +71,38 @@ module.exports = async (req, res) => {
 async function fetchStreamingInfo(mediaType, id) {
     try {
         let response;
-        console.log(`Fetching streaming info for ${mediaType} with ID: ${id}`);
+    if (mediaType == 'movie') {
+                    response = await axios.get(TMDB_MOVIE_STREAMING_API_URL, {
+                        params: {
+                            api_key: process.env.TMDB_API_KEY,  // Use the secure API key from the .env file
+                            movie_id: id
+                        }
+                    });
+    }
 
-        if (mediaType == 'movie') {
-            console.log('Fetching movie streaming info');
-            response = await axios.get(TMDB_MOVIE_STREAMING_API_URL, {
-                params: {
-                    api_key: process.env.TMDB_API_KEY,
-                    movie_id: id
-                }
-            });
-        } else if (mediaType == 'tv') {
-            console.log('Fetching TV streaming info');
+    else if (mediaType == 'tv') {
             response = await axios.get(TMDB_TV_STREAMING_API_URL, {
                 params: {
-                    api_key: process.env.TMDB_API_KEY,
+                    api_key: process.env.TMDB_API_KEY,  // Use the secure API key from the .env file
                     tv_id: id
                 }
             });
-        } else {
-            throw new Error('Invalid media type');
-        }
+    }
 
-        // Check if response is successful
-        if (response.status === 200) {
-            console.log('Streaming info response:', response.data);
-            return response.data.results;
-        } else {
-            throw new Error('Error fetching streaming data: Non-200 status');
-        }
-    } catch (error) {
-        console.error('Error fetching streaming data:', error);
-        return [];  // Return an empty array if there is an error
+    else {
+        throw new Error('Invalid media type');
+    }
+
+    const providers = [];
+    providers.push('NetFlix, Amazon Prime, Disney Plus');
+    return providers;
+
+  
+
+
+} catch (error) {
+    console.error('Error fetching streaming data', error);
+    return [];
+
     }
 }
