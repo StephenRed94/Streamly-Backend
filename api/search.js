@@ -104,7 +104,7 @@ async function fetchStreamingInfo(mediaType, id) {
           }
         });
 
-        countryProviders[country] = [..new Set(providers)];
+        countryProviders[country] = [...new Set(providers)];
       }
     }
 
