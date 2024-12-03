@@ -97,15 +97,16 @@ async function fetchStreamingInfo(mediaType, id) {
 
     // Loop through available countries and extract the provider names
     for (const country in platformData) {
-        // Ensure the country has the 'flatrate' key and it's not empty
-        if (platformData[country].flatrate && platformData[country].flatrate.length > 0) {
-          // Extract provider names and ensure uniqueness using Set
-          const providers = platformData[country].flatrate.map(service => service.provider_name);
-          countryProviders[country] = [...new Set(providers)];  // Remove duplicates using Set
-        }
+      if (platformData[country].flatrate) {
+        platformData[country].flatrate.forEach(service => {
+          if (service.provider_name) {
+            providers.push(service.provider_name);
+          }
+        });
       }
-  
-      return countryProviders;
+    }
+
+    return [...new Set(providers)];
 
 
 } catch (error) {
