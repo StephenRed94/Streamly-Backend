@@ -92,23 +92,21 @@ async function fetchStreamingInfo(mediaType, id) {
         throw new Error('Invalid media type');
     }
 
+    const providers = [];
     const platformData = response.data.results;
 
     // Loop through available countries and extract the provider names
     for (const country in platformData) {
-        const providers = ['Netflix', 'Amazon Prime'];
       if (platformData[country].flatrate) {
         platformData[country].flatrate.forEach(service => {
           if (service.provider_name) {
             providers.push(service.provider_name);
           }
         });
-
-        countryProviders[country] = [...new Set(providers)];
       }
     }
 
-    return countryProviders;
+    return [...new Set(providers)];
 
 
 } catch (error) {
