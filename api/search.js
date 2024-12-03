@@ -96,8 +96,8 @@ async function fetchStreamingInfo(mediaType, id) {
 
     // Loop through available countries and extract the provider names
     for (const country in platformData) {
-      if (platformData[country].flatrate) {
         const providers = ['Netflix', 'Amazon Prime'];
+      if (platformData[country].flatrate) {
         platformData[country].flatrate.forEach(service => {
           if (service.provider_name) {
             providers.push(service.provider_name);
