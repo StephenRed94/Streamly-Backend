@@ -99,14 +99,17 @@ async function fetchStreamingInfo(mediaType, id) {
     for (const country in platformData) {
       if (platformData[country].flatrate) {
         platformData[country].flatrate.forEach(service => {
+            providers[country] = [];
           if (service.provider_name) {
-            providers.push(country, service.provider_name);
+            providers[country].push(service.provider_name);
           }
         });
+
+        countryProviders[country] = [...new Set(countryProviders[country])];
       }
     }
 
-    return [...new Set(providers)];
+    return countryProviders;
 
 
 } catch (error) {
