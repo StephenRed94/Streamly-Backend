@@ -98,18 +98,23 @@ async function fetchStreamingInfo(mediaType, id) {
     // Loop through available countries and extract the provider names
     for (const country in platformData) {
       if (platformData[country].flatrate) {
-        platformData[country].flatrate.forEach(service => {
-            providers[country] = [];
-          if (service.provider_name) {
-            providers[country].push(service.provider_name);
-          }
+        platformData[country].flatrate.forEach(providerItem => {
+            if (providerItem.provider_name){
+            const providerItem = platformData[i];
+            const provider = {
+                country: country,
+                provider_name: providerItem.provider_name
+            };
+            providers.push(provider);
+        }
         });
-
-        providers[country] = [...new Set(providers[country])];
-      }
     }
+}
 
     return providers;
+
+
+
 
 
 } catch (error) {
@@ -117,4 +122,5 @@ async function fetchStreamingInfo(mediaType, id) {
     return [];
 
     }
+
 }
