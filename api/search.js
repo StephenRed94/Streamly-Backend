@@ -95,12 +95,11 @@ async function fetchStreamingInfo(mediaType, id) {
     const providers = [];
     const platformData = response.data.results;
 
-    // Loop through available countries and extract the provider names
+  
     for (const country in platformData) {
       if (platformData[country].flatrate) {
         platformData[country].flatrate.forEach(providerItem => {
             if (providerItem.provider_name){
-            const providerItem = platformData[i];
             const provider = {
                 country: country,
                 provider_name: providerItem.provider_name
